@@ -1,8 +1,8 @@
 
 function Titlelogo() {
   return (
-    <div>
-      <h1>GitHub Profile Analyzer</h1> <a></a>
+    <div class="flex-row flex-nowrap justify-center">
+      <h1 class="text-4xl">GitHub Profile Analyzer</h1><img src="src/assets/github-mark.png" class="w-10"></img>
     </div>
   );
 }
