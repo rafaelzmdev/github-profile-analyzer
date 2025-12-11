@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import './components/Charts'
 import './components/RepoCard'
-import './components/SearchBar'
+import Search from './components/SearchBar'
 import Titlelogo from './components/Titlelogo'
 import './components/UserCard'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  useEffect(() =>
+    document.documentElement.classList.add('dark')
+  );
   return (
     <>
-      <div className="title">
-        <Titlelogo></Titlelogo>
+      <div className="root" class="min-h-screen bg-white dark:bg-black text-black dark:text-white ">
+        <div className="titlensearch">
+          <Titlelogo></Titlelogo>
+        </div>
       </div>
     </>
   )
