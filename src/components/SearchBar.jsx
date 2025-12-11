@@ -1,4 +1,3 @@
-{/*<i class='bxr  bx-search'></i> */}
 import '../app.css'
 import { useState, useEffect } from "react";
 
