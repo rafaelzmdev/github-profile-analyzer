@@ -12,9 +12,12 @@ function App() {
   );
   return (
     <>
-      <div className="root" class="min-h-screen bg-white dark:bg-black text-black dark:text-white ">
-        <div className="titlensearch">
+      <div className="root min-h-screen bg-white dark:bg-black text-black dark:text-white  border-black dark:border-white">
+        <div className="title pt-1 mb-2 ml-2 max-w-fit">
           <Titlelogo></Titlelogo>
+        </div>
+        <div className="search max-w-sameastitle">
+          <Search></Search>
         </div>
       </div>
     </>

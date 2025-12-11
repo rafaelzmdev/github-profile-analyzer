@@ -6,7 +6,11 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        'sameastitle': '420px', //nice number lol
+      },
+    },
   },
   plugins: [],
 };
