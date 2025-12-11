@@ -10,6 +10,9 @@ module.exports = {
       maxWidth: {
         'sameastitle': '420px', //nice number lol
       },
+      minWidth: {
+        '420': '420px',
+      },
     },
   },
   plugins: [],
