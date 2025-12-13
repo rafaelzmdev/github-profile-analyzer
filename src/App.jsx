@@ -4,7 +4,7 @@ import './components/Charts'
 import './components/RepoCard'
 import Search from './components/SearchBar'
 import Titlelogo from './components/Titlelogo'
-import './components/UserCard'
+import Card from './components/UserCard'
 import { data } from 'autoprefixer'
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [username, setUsername] = useState('');
+  const [placeholder, setPlaceholder] = useState('Insert username here');
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -33,28 +34,45 @@ function App() {
         setLoading(false)
     }
   };
-
+  
+  useEffect(() => {
+    if (loading) {
+      setPlaceholder("Fetching API")
+    }
+    else if (error) {
+      setPlaceholder("Error fetching API")
+    }
+    else {
+      setPlaceholder("Insert username here")
+    }
+  })
 
   const handleClick = () => {
     console.log("Search button clicked.")
     if (username) {
       fetchGithubApi(username)
     } else {
-      setError("Please enter a username.")
+      setError("nousername")
     }
   };
   const handleInputChange = e => {
     setUsername(e.target.value);
   };
+  const removeInput = () => {
+    setUsername("")
+  }
 
   return (
     <>
-      <div className="root min-h-screen bg-white dark:bg-black text-black dark:text-white  border-black dark:border-white">
+      <div className="root min-h-screen text-black dark:text-white  border-black dark:border-white">
         <div className="title pt-1 mb-2 ml-2 max-w-fit">
           <Titlelogo></Titlelogo>
         </div>
         <div className="search max-w-sameastitle">
-          <Search username={username} handleClick={handleClick} handleInputChange={handleInputChange}></Search>
+          <Search username={username} handleClick={handleClick} handleInputChange={handleInputChange} removeInput={removeInput} placeholder={placeholder}></Search>
+        </div>
+        <div className="flex w-fit max-w-29.5 pt-3 ml-2">
+          <Card info={info}></Card>
         </div>
       </div>
     </>

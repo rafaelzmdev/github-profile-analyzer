@@ -8,10 +8,12 @@ module.exports = {
   theme: {
     extend: {
       maxWidth: {
-        'sameastitle': '420px', //nice number lol
+        'sameastitle': '26.5rem', //nice number lol
+        '29.5' : '29.5 rem',
       },
       minWidth: {
-        '420': '420px',
+        '420': '26.5rem',
+        '29.5' : '29.5rem',
       },
     },
   },

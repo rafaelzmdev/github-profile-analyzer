@@ -9,5 +9,30 @@
   font-family: "Poppins", sans-serif;
   font-weight: 450;
   font-style: normal;
+  position: relative;
+  background-image: url(./assets/backgroundwhite.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-
+#root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.65);
+  z-index: 0;
+  pointer-events: none;
+}
+#root > * {
+  position: relative;
+  z-index: 1;
+}
+.dark #root {
+  background-image: url(./assets/backgroundblack.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.dark #root::before{
+  background: rgba(0, 0, 0, 0.5);
+}
