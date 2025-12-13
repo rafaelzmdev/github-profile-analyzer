@@ -15,6 +15,12 @@ module.exports = {
         '420': '26.5rem',
         '29.5' : '29.5rem',
       },
+      width: {
+        '29.5' : '29.5rem',
+      },
+      borderRadius: {
+        '128' : '128px',
+      },
     },
   },
   plugins: [],
