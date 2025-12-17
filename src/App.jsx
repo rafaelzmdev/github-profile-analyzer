@@ -5,7 +5,6 @@ import './components/RepoCard'
 import Search from './components/SearchBar'
 import Titlelogo from './components/Titlelogo'
 import Card from './components/UserCard'
-import { data } from 'autoprefixer'
 
 function App() {
   const [info, setInfo] = useState(null);
@@ -21,17 +20,17 @@ function App() {
   const fetchGithubApi = async (username) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch(`https://api.github.com/users/${username}`);
       if (!response.ok) throw new Error('Failed to fetch API');
       const data = await response.json();
       setInfo(data);
-    }  catch (err) {
-        setError(err.message);
+      console.log(data)
+    }  catch (error) {
+        setError(error.message);
     }  finally {
-        console.log("API Fetched sucessfuly")
-        console.log(data)
+        console.log("API Fetched")
         setLoading(false)
     }
   };
