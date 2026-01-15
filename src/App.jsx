@@ -40,7 +40,7 @@ function App() {
       setPlaceholder("Fetching API")
     }
     else if (error) {
-      setPlaceholder("Error fetching API")
+      setPlaceholder("API fetch error; reload")
     }
     else {
       setPlaceholder("Insert username here")

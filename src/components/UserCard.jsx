@@ -3,6 +3,10 @@ function Card({info}) {
     if (!info) {
         return <div></div>
     }
+    let email = info.email
+    if (!email) {
+        email = "Email unavailable"
+    }
     console.log(info)
     return(
         <div className="imgcontainer w-29.5 flex flex-col align-top justify-left">
@@ -11,6 +15,7 @@ function Card({info}) {
                 <p className="username text-[3rem]">{info.login}</p>
                 <p className="follows text-[1.25rem]">{info.followers} Followers; Following {info.following}</p>
                 <p className="reposnumber text-[1.25rem]">Public repositories: {info.public_repos}</p>
+                <p className="email text-[1.25rem]">Email: {email}</p>
             </div>
         </div>
     )
