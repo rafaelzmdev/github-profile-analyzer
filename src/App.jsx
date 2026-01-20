@@ -40,7 +40,7 @@ function App() {
       setPlaceholder("Fetching API")
     }
     else if (error) {
-      setPlaceholder("API fetch error; reload")
+      setPlaceholder("API fetch error; try again")
     }
     else {
       setPlaceholder("Insert username here")
@@ -71,7 +71,7 @@ function App() {
         <div className="search max-w-sameastitle">
           <Search username={username} handleClick={handleClick} handleInputChange={handleInputChange} removeInput={removeInput} placeholder={placeholder}></Search>
         </div>
-        <div className="cardcontainer flex w-29.5 pt-5 pl-14">
+        <div className="cardcontainer flex w-29.5 pt-5">
           <Card info={info}></Card>
         </div>
       </div>
