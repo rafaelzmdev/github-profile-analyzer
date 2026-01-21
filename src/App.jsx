@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import './components/Charts'
-import './components/RepoCard'
+import Charts from './components/Charts'
 import Search from './components/SearchBar'
 import Titlelogo from './components/Titlelogo'
 import Card from './components/UserCard'
@@ -12,6 +11,7 @@ function App() {
   const [error, setError] = useState(null);
   const [username, setUsername] = useState('');
   const [placeholder, setPlaceholder] = useState('Insert username here');
+  
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -64,15 +64,20 @@ function App() {
 
   return (
     <>
-      <div className="root min-h-screen text-black dark:text-white  border-black dark:border-white">
-        <div className="title pt-1 mb-2 ml-2 max-w-fit">
-          <Titlelogo></Titlelogo>
+      <div className="root min-h-screen flex text-black dark:text-white  border-black dark:border-white">
+        <div>
+            <div className="title pt-1 mb-2 ml-2 max-w-fit">
+              <Titlelogo></Titlelogo>
+            </div>
+            <div className="search max-w-sameastitle">
+               <Search username={username} handleClick={handleClick} handleInputChange={handleInputChange} removeInput={removeInput} placeholder={placeholder}></Search>
+            </div>
+            <div className="cardcontainer flex w-29.5 pt-5">
+              <Card info={info}></Card>
+            </div>
         </div>
-        <div className="search max-w-sameastitle">
-          <Search username={username} handleClick={handleClick} handleInputChange={handleInputChange} removeInput={removeInput} placeholder={placeholder}></Search>
-        </div>
-        <div className="cardcontainer flex w-29.5 pt-5">
-          <Card info={info}></Card>
+        <div className="chartcontainer gap-2 h-[100vh] min-w-max ml-8 mt-1">
+          <Charts info={info}></Charts>
         </div>
       </div>
     </>

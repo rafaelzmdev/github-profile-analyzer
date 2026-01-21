@@ -18,7 +18,7 @@ function Title() {
     setIsDark(!isDark);
   };
   return (
-    <div className="flex flex-row flex-nowrap justify-start max-h-12 gap-3">
+    <div className="flex flex-nowrap justify-start max-h-12 gap-3">
       <h1 className="text-4xl pt-1 font-semibold">GitHub Profile Analyzer</h1>
       <img src={isDark ? darkLogo : lightLogo} alt="GitHub Logo" className="w-11 h-11 cursor-pointer mt-0.5 hover:-translate-y-0.5 transition-transform" onClick={toggleTheme}/>
     </div>
