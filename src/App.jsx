@@ -16,7 +16,18 @@ function App() {
   useEffect(() => {
     document.documentElement.classList.add('dark');
   }, []);
-  
+
+  const graphInfo = () => {
+    fetch("/api/fetch")
+      .then (console.log("We reached this point alright"))
+      .then (res => res.json())
+      .then (json => console.log(json)) 
+  };
+
+  useEffect(() => {
+    graphInfo()
+  }, [])
+
   const fetchGithubApi = async (username) => {
     setLoading(true);
     setError(null);
@@ -60,7 +71,7 @@ function App() {
   };
   const removeInput = () => {
     setUsername("")
-  }
+  };
 
   return (
     <>
