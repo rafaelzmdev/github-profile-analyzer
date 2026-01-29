@@ -11,22 +11,12 @@ function App() {
   const [error, setError] = useState(null);
   const [username, setUsername] = useState('');
   const [placeholder, setPlaceholder] = useState('Insert username here');
+  const [graphdata, setGraphData] = useState(null)
   
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
   }, []);
-
-  const graphInfo = () => {
-    fetch("/api/fetch")
-      .then (console.log("We reached this point alright"))
-      .then (res => res.json())
-      .then (json => console.log(json)) 
-  };
-
-  useEffect(() => {
-    graphInfo()
-  }, [])
 
   const fetchGithubApi = async (username) => {
     setLoading(true);
@@ -46,6 +36,31 @@ function App() {
     }
   };
   
+  const fetchBackend = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const backendresponse = await fetch("/api/fetch");
+      if (!backendresponse) throw new Error('Failed to fetch backend data');
+      const backendata = await backendresponse.json();
+      setGraphData(backendata);
+      console.log(backendata)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      console.log("Backend Fetched")
+      setLoading(false)
+    }
+  }
+
+  const sendUsername = async (username) => {
+    setLoading(true);
+    setError(null);
+
+  }
+
+
   useEffect(() => {
     if (loading) {
       setPlaceholder("Fetching API")
@@ -59,9 +74,11 @@ function App() {
   })
 
   const handleClick = () => {
-    console.log("Search button clicked.")
+    console.log("Search button clicked")
     if (username) {
       fetchGithubApi(username)
+      sendUsername(username)
+      fetchBackend()
     } else {
       setError("nousername")
     }
@@ -88,7 +105,7 @@ function App() {
             </div>
         </div>
         <div className="chartcontainer gap-2 h-[100vh] min-w-max ml-8 mt-1">
-          <Charts info={info}></Charts>
+          <Charts info={info} graphdata={graphdata}></Charts>
         </div>
       </div>
     </>

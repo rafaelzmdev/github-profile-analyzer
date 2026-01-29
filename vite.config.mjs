@@ -1,7 +1,18 @@
 // vite.config.js
-import react from '@vitejs/plugin-react'; // ESM import
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
 
-export default {
+console.log("VITE CONFIG LOADED")
+export default defineConfig({
   plugins: [react()],
-};
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+});
 
