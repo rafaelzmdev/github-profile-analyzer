@@ -55,9 +55,13 @@ function App() {
   }
 
   const sendUsername = async (username) => {
-    setLoading(true);
-    setError(null);
-
+      fetch("/api/username", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({username}),
+      })
   }
 
 
