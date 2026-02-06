@@ -1,6 +1,6 @@
 import '../App.css'
-function Charts({info}) {
-    if (!info) {
+function Charts({info, graphdata}) {
+    if (!info, !graphdata) {
         return <div></div>
     }
     return (
