@@ -10,7 +10,7 @@
   font-weight: 450;
   font-style: normal;
   position: relative;
-  background-image: url(./assets/backgroundwhite.png);
+  background-image: url(/assets/backgroundwhite.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -28,7 +28,7 @@
   z-index: 1;
 }
 .dark #root {
-  background-image: url(./assets/backgroundblack.jpg);
+  background-image: url(/assets/backgroundblack.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
