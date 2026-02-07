@@ -1,6 +1,7 @@
 import express, { json } from "express"
 import jwt from "jsonwebtoken";
 const app = express()
+const jwt = createAppJWT();
 app.use(express.json())
 const graphData = [1]
 import cors from "cors";
@@ -33,7 +34,7 @@ function createAppJWT() {
     algorithm: "RS256",
   });
 }
-const jwt = createAppJWT();
+
 const res = await fetch(
   `https://api.github.com/app/installations/${installationId}/access_tokens`,
   {
