@@ -2,7 +2,7 @@
   "name": "GitHub Profile Analyzer",
   "version": "1.0.0",
   "type": "module",
-  "proxy": "https://ghanalyzer.netlify.app/",
+  "proxy": "https://graphql-gha-api.onrender.com/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
