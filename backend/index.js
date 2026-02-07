@@ -1,14 +1,10 @@
 import express, { json } from "express"
 import jwt from "jsonwebtoken";
+import cors from "cors";
 const app = express()
 app.use(express.json())
 const graphData = [1]
-import cors from "cors";
-app.use(cors({
-  origin: [
-    "https://ghanalyzer.netlify.app/"
-  ],
-}));
+app.use(cors());
 
 app.get( "/", (req, res) => {
     res.send("Server online");
