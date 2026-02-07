@@ -1,4 +1,5 @@
 import express, { json } from "express"
+import jwt from "jsonwebtoken";
 const app = express()
 app.use(express.json())
 const graphData = [1]
@@ -20,6 +21,33 @@ app.post("/api/username", (req, res) => {
         received: username
     });
 });
+
+function createAppJWT() {
+  const payload = {
+    iat: Math.floor(Date.now() / 1000) - 60,
+    exp: Math.floor(Date.now() / 1000) + 600,
+    iss: process.env.GITHUB_APP_ID,
+  };
+
+  return jwt.sign(payload, process.env.GITHUB_PRIVATE_KEY, {
+    algorithm: "RS256",
+  });
+}
+const jwt = createAppJWT();
+const res = await fetch(
+  `https://api.github.com/app/installations/${installationId}/access_tokens`,
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+      Accept: "application/vnd.github+json",
+    },
+  }
+);
+const { token } = await res.json();
+//token = auth for graphql
+
+
 
 // so here's where we'll put the graphQL fetch and start assigning values. great.
 
