@@ -1,7 +1,6 @@
 import express, { json } from "express"
 import jwt from "jsonwebtoken";
 const app = express()
-const jwt = createAppJWT();
 app.use(express.json())
 const graphData = [1]
 import cors from "cors";
@@ -23,6 +22,8 @@ app.post("/api/username", (req, res) => {
     });
 });
 
+const jwt1 = createAppJWT();
+
 function createAppJWT() {
   const payload = {
     iat: Math.floor(Date.now() / 1000) - 60,
@@ -30,7 +31,7 @@ function createAppJWT() {
     iss: process.env.GITHUB_APP_ID,
   };
 
-  return jwt.sign(payload, process.env.GITHUB_PRIVATE_KEY, {
+  return jwt1.sign(payload, process.env.GITHUB_PRIVATE_KEY, {
     algorithm: "RS256",
   });
 }
@@ -40,12 +41,13 @@ const res = await fetch(
   {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${jwt}`,
+      Authorization: `Bearer ${jwt1}`,
       Accept: "application/vnd.github+json",
     },
   }
 );
 const { token } = await res.json();
+console.log(token) // remove before final deploy
 //token = auth for graphql
 
 
