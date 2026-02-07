@@ -6,7 +6,7 @@ const graphData = [1]
 import cors from "cors";
 app.use(cors({
   origin: [
-    "https://ghanalyzer.netlify.app/",
+    "https://ghanalyzer.netlify.app/"
   ],
 }));
 
@@ -22,34 +22,56 @@ app.post("/api/username", (req, res) => {
     });
 });
 
-const jwt1 = createAppJWT();
-
 function createAppJWT() {
   const payload = {
     iat: Math.floor(Date.now() / 1000) - 60,
     exp: Math.floor(Date.now() / 1000) + 600,
     iss: process.env.GITHUB_APP_ID,
   };
+  const privateKey = process.env.GITHUB_PRIVATE_KEY.replace(/\\n/g, "\n");
 
-  return jwt1.sign(payload, process.env.GITHUB_PRIVATE_KEY, {
+  return jwt.sign(payload, privateKey, {
     algorithm: "RS256",
   });
 }
 
-const res = await fetch(
-  `https://api.github.com/app/installations/${installationId}/access_tokens`,
-  {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${jwt1}`,
-      Accept: "application/vnd.github+json",
-    },
-  }
-);
-const { token } = await res.json();
-console.log(token) // remove before final deploy
-//token = auth for graphql
+let cachedToken = null;
+let tokenExpiresAt = 0;
 
+async function getInstallationToken(installationId) {
+  if (cachedToken && Date.now() < tokenExpiresAt) {
+    return cachedToken;
+  }
+
+  const appJwt = createAppJWT();
+
+  const res = await fetch(
+    `https://api.github.com/app/installations/${installationId}/access_tokens`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${appJwt}`,
+        Accept: "application/vnd.github+json",
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(`GitHub auth failed: ${res.status}`);
+  }
+
+  const data = await res.json();
+
+  cachedToken = data.token;
+  tokenExpiresAt = new Date(data.expires_at).getTime();
+
+  return cachedToken;
+}
+
+//token = auth for graphql
+// call getInstallationToken(cachedToken) only mid-fetch!
+// if (username) {
+// (start the code here) }
 
 
 // so here's where we'll put the graphQL fetch and start assigning values. great.
