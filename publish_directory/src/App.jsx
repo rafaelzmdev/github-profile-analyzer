@@ -41,7 +41,7 @@ function App() {
     setError(null);
 
     try {
-      const backendresponse = await fetch("/api/fetch");
+      const backendresponse = await fetch("https://graphql-gha-api.onrender.com/api/fetch");
       if (!backendresponse) throw new Error('Failed to fetch backend data');
       const backendata = await backendresponse.json();
       setGraphData(backendata);
@@ -55,7 +55,7 @@ function App() {
   }
 
   const sendUsername = async (username) => {
-      fetch("/api/username", {
+      fetch("https://graphql-gha-api.onrender.com/api/username", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
