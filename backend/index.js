@@ -64,15 +64,32 @@ async function getInstallationToken(installationId) {
   return cachedToken;
 }
 
+
 //token = auth for graphql
 // call getInstallationToken(cachedToken) only mid-fetch!
-// if (username) {
-// (start the code here) }
-
-
+if (username) {
+  const response = await getInstallationToken(cachedToken)
+  fetch("https://api.github.com/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${GITHUB_PRIVATE_KEY}`
+  },
+  body: JSON.stringify({
+    query: `
+      query {
+        viewer {
+          login
+          name
+        }
+      }
+    `
+  })
+})
+const data = await response.json()
+console.log(data)
+}
 // so here's where we'll put the graphQL fetch and start assigning values. great.
-
-
 
 
 app.get("/api/fetch", (req, res) => {
