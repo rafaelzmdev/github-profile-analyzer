@@ -10,14 +10,6 @@ app.get( "/", (req, res) => {
     res.send("Server online");
 });
 
-app.post("/api/username", (req, res) => {
-    const username = req.body.username
-    console.log("Username catched successfuly:", username)
-    res.json({
-        received: username
-    });
-});
-
 function createAppJWT() {
   const payload = {
     iat: Math.floor(Date.now() / 1000) - 60,
@@ -67,30 +59,39 @@ async function getInstallationToken(installationId) {
 
 //token = auth for graphql
 // call getInstallationToken(cachedToken) only mid-fetch!
-if (username) {
-  const response = await getInstallationToken(cachedToken)
-  fetch("https://api.github.com/graphql", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${GITHUB_PRIVATE_KEY}`
-  },
-  body: JSON.stringify({
-    query: `
-      query {
-        viewer {
-          login
-          name
-        }
-      }
-    `
-  })
-})
-const data = await response.json()
-console.log(data)
-}
-// so here's where we'll put the graphQL fetch and start assigning values. great.
+app.post("/api/username", async (req, res) => {
+    const username = req.body.username
+    console.log("Username catched successfuly:", username)
+    if (!username) {
+      return res.sendStatus(400);
+    }
 
+    const cachedToken = await getInstallationToken(installationId)
+    const response = fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${cachedToken}`
+    },
+    body: JSON.stringify({
+      query: `
+          query ($login: String!) {
+            user(login: $login) {
+              login
+              name
+              }
+            }
+          }
+        `,
+      variables: { login: username },
+    }),
+  })
+  const data = await response.json()
+  console.log(data)
+  res.json(data)
+});
+
+// so here's where we'll put the graphQL fetch and start assigning values. great.
 
 app.get("/api/fetch", (req, res) => {
     res.status(200).json({ data: graphData });
