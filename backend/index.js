@@ -57,7 +57,6 @@ async function getInstallationToken(INSTALLATION_ID) {
   return cachedToken;
 }
 
-
 //token = auth for graphql
 // call getInstallationToken(cachedToken) only mid-fetch!
 
