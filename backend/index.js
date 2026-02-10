@@ -26,7 +26,7 @@ function createAppJWT() {
 let cachedToken = null;
 let tokenExpiresAt = 0;
 
-async function getInstallationToken(installationId) {
+async function getInstallationToken(INSTALLATION_ID) {
   if (cachedToken && Date.now() < tokenExpiresAt) {
     return cachedToken;
   }
@@ -34,7 +34,7 @@ async function getInstallationToken(installationId) {
   const appJwt = createAppJWT();
 
   const res = await fetch(
-    `https://api.github.com/app/installations/${installationId}/access_tokens`,
+    `https://api.github.com/app/installations/${INSTALLATION_ID}/access_tokens`,
     {
       method: "POST",
       headers: {
@@ -66,7 +66,7 @@ app.post("/api/username", async (req, res) => {
       return res.sendStatus(400);
     }
 
-    const cachedToken = await getInstallationToken(installationId)
+    const cachedToken = await getInstallationToken(INSTALLATION_ID)
     const response = fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
