@@ -66,10 +66,6 @@ app.post("/api/username", async (req, res) => {
     if (!username) {
       return res.sendStatus(400);
     }
-    
-    const now = new Date();
-    const from = new Date(now.getFullYear() - 5, 0, 1).toISOString();
-    const to = now.toISOString();
 
     const cachedToken = await getInstallationToken(INSTALLATION_ID)
     const response = await fetch("https://api.github.com/graphql", {
@@ -80,7 +76,7 @@ app.post("/api/username", async (req, res) => {
       },
       body: JSON.stringify({
         query: `
-            query UserAnalytics($login: String!, $from: DateTime!, $to: DateTime!) {
+            query UserAnalytics($login: String!) {
               user(login: $login) {
                 login
                 name
@@ -102,7 +98,7 @@ app.post("/api/username", async (req, res) => {
                     }
                   }
                 }
-                contributionsCollection(from: $from, to: $to) {
+                contributionsCollection {
                   contributionCalendar {
                     weeks {
                       contributionDays {
@@ -116,9 +112,7 @@ app.post("/api/username", async (req, res) => {
             }
           `,
         variables: {
-         login: username,
-         from,
-         to, 
+         login: username
         }
       }),
     })
