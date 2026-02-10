@@ -117,7 +117,7 @@ app.post("/api/username", async (req, res) => {
       }),
     })
     const data = await response.json()
-    console.log(data);
+    console.log(JSON.stringify(data, null, 2));
 });
 
 // so here's where we'll put the graphQL fetch and start assigning values. great.
