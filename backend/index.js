@@ -25,6 +25,7 @@ function createAppJWT() {
 
 let cachedToken = null;
 let tokenExpiresAt = 0;
+const INSTALLATION_ID = process.env.INSTALLATION_ID;
 
 async function getInstallationToken(INSTALLATION_ID) {
   if (cachedToken && Date.now() < tokenExpiresAt) {
@@ -59,6 +60,7 @@ async function getInstallationToken(INSTALLATION_ID) {
 
 //token = auth for graphql
 // call getInstallationToken(cachedToken) only mid-fetch!
+
 app.post("/api/username", async (req, res) => {
     const username = req.body.username
     console.log("Username catched successfuly:", username)
