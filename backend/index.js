@@ -68,28 +68,28 @@ app.post("/api/username", async (req, res) => {
     }
 
     const cachedToken = await getInstallationToken(INSTALLATION_ID)
-    const response = fetch("https://api.github.com/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${cachedToken}`
-    },
-    body: JSON.stringify({
-      query: `
-          query ($login: String!) {
-            user(login: $login) {
-              login
-              name
+    const response = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${cachedToken}`
+      },
+      body: JSON.stringify({
+        query: `
+            query ($login: String!) {
+              user(login: $login) {
+                login
+                name
+                }
               }
             }
-          }
-        `,
-      variables: { login: username },
-    }),
-  })
-  const data = await response.json()
-  console.log(data)
-  res.json(data)
+          `,
+        variables: { login: username },
+      }),
+    })
+    const data = response.json()
+    console.log(data)
+    res.json(data)
 });
 
 // so here's where we'll put the graphQL fetch and start assigning values. great.
