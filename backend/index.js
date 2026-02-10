@@ -86,7 +86,6 @@ app.post("/api/username", async (req, res) => {
         variables: { login: username },
       }),
     })
-    console.log(response)
     const data = await response.json()
     console.log(data);
 });
