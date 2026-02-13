@@ -117,6 +117,25 @@ app.post("/api/username", async (req, res) => {
       }),
     })
     const data = await response.json()
+    const weeks =
+      data.data.user.contributionsCollection.contributionCalendar.weeks;
+    const days = weeks.flatMap(week => week.contributionDays);
+    const monthlyTotals = {};
+
+    days.forEach(day => {
+    const monthKey = day.date.slice(0, 7);
+
+    if (!monthlyTotals[monthKey]) {
+      monthlyTotals[monthKey] = 0;
+    }
+
+    monthlyTotals[monthKey] += day.contributionCount;
+    });
+
+    const sorted = Object.entries(monthlyTotals)
+    .sort(([a], [b]) => new Date(a) - new Date(b));
+    console.log(sorted)
+
     const readable = JSON.stringify(data, null, 2)
     console.log(readable);
 });
