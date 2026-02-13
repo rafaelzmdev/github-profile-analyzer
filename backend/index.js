@@ -132,8 +132,8 @@ app.post("/api/username", async (req, res) => {
     const sorted = Object.entries(monthlyTotals) .sort(([a], [b]) => new Date(a) - new Date(b));
     console.log(sorted)
 
-    const readable = JSON.stringify(data, null, 2)
-    console.log(readable);
+    const readable = JSON.stringify(data.data.user.repositories, null, 2)
+    console.log(readable)
 });
 
 // so here's where we'll put the graphQL fetch and start assigning values. great.
