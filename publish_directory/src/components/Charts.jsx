@@ -1,4 +1,12 @@
 import '../App.css'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 function Charts({info, graphdata}) {
     if (!info || !graphdata) {
         return <div></div>
@@ -7,9 +15,24 @@ function Charts({info, graphdata}) {
     return (
         <div className="grid grid-cols-2 grid-rows-2 gap-4">
             <div>
-                <h1 className="text-5xl">Placeholder 1</h1>
+                <div className="col-span-2">
+                    <h1 className="text-xl mb-2">Monthly Contributions</h1>
+
+                    <ResponsiveContainer width="100%" height={300}>
+                        <LineChart data={graphdata.contributions}>
+                            <XAxis dataKey="month" />
+                            <YAxis />
+                            <Tooltip />
+                            <Line
+                                type="monotone"
+                                dataKey="contributions"
+                                strokeWidth={2}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
             </div>
-            <div>
+        <div>
                 <h1 className="text-5xl">Placeholder 2</h1>
             </div>
             <div>
