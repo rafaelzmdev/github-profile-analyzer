@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import cors from "cors";
 const app = express()
 app.use(express.json())
-const graphData = [1]
 app.use(cors());
 
 app.get( "/", (req, res) => {
@@ -134,14 +133,55 @@ app.post("/api/username", async (req, res) => {
 
     const readable = JSON.stringify(data.data.user.repositories, null, 2)
     console.log(readable)
-});
+
+    const contributions = sorted.map(([month, count]) => ({
+      month,
+      contributions: count
+    }));
+
+    const languageTotals = {};
+
+    data.data.user.repositories.nodes.forEach(repo => {
+      repo.languages.edges.forEach(lang => {
+        const name = lang.node.name;
+        const size = lang.size;
+
+        if (!languageTotals[name]) {
+          languageTotals[name] = 0;
+        }
+
+        languageTotals[name] += size;
+      });
+    });
+
+    const languages = Object.entries(languageTotals).map(([name, value]) => ({
+      name,
+      value
+    }));
+
+    const repos = data.data.user.repositories.nodes;
+
+    const stars = repos.map(repo => ({
+      name: repo.name,
+      stars: repo.stargazerCount
+    }));
+
+    const topRepos = stars
+      .sort((a, b) => b.stars - a.stars)
+      .slice(0, 5);
+    const graphData = {
+      contributions,
+      languages,
+      repos,
+      stars,
+      topRepos
+    };
+    res.json(graphData);
+  });
+
 
 // so here's where we'll put the graphQL fetch and start assigning values. great.
 
-app.get("/api/fetch", (req, res) => {
-    res.status(200).json({ data: graphData });
-    console.log("User data sent to frontend");
-});
 
 const port = process.env.PORT || 3000
 

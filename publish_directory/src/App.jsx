@@ -36,33 +36,32 @@ function App() {
     }
   };
   
-  const fetchBackend = async () => {
+  const fetchGraphData = async (username) => {
     setLoading(true);
     setError(null);
 
     try {
-      const backendresponse = await fetch("https://graphql-gha-api.onrender.com/api/fetch");
-      if (!backendresponse) throw new Error('Failed to fetch backend data');
-      const backendata = await backendresponse.json();
-      setGraphData(backendata);
-      console.log(backendata)
-    } catch (error) {
-      setError(error.message)
-    } finally {
-      console.log("Backend Fetched")
-      setLoading(false)
-    }
-  }
-
-  const sendUsername = async (username) => {
-      fetch("https://graphql-gha-api.onrender.com/api/username", {
+      const res = await fetch("https://graphql-gha-api.onrender.com/api/username", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({username}),
-      })
-  }
+        body: JSON.stringify({ username })
+      });
+
+      if (!res.ok) throw new Error("Backend fetch failed");
+
+      const data = await res.json();
+      setGraphData(data);
+
+      console.log(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      console.log("GraphQL backend fetched");
+      setLoading(false);
+    }
+  };
 
 
   useEffect(() => {
@@ -81,8 +80,7 @@ function App() {
     console.log("Search button clicked")
     if (username) {
       fetchGithubApi(username)
-      sendUsername(username)
-      fetchBackend()
+      fetchGraphData(username)
     } else {
       setError("nousername")
     }

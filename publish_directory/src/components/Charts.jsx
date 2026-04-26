@@ -1,8 +1,9 @@
 import '../App.css'
 function Charts({info, graphdata}) {
-    if (!info, !graphdata) {
+    if (!info || !graphdata) {
         return <div></div>
     }
+    console.log(graphdata)
     return (
         <div className="grid grid-cols-2 grid-rows-2 gap-4">
             <div>
