@@ -67,8 +67,16 @@ app.post("/api/username", async (req, res) => {
     }
 
     const now = new Date();
-    const threeYearsAgo = new Date();
-    threeYearsAgo.setFullYear(now.getFullYear() - 3);
+
+    
+    const fromDate = new Date(now);
+    fromDate.setFullYear(now.getFullYear() - 3);
+
+
+    const toDate = new Date(now.getTime() - 1000); // 1s in past
+
+    const from = fromDate.toISOString();
+    const to = toDate.toISOString();
 
     const cachedToken = await getInstallationToken(INSTALLATION_ID)
     const response = await fetch("https://api.github.com/graphql", {
@@ -116,8 +124,8 @@ app.post("/api/username", async (req, res) => {
           `,
         variables: {
          login: username,
-         from: threeYearsAgo.toISOString(),
-         to: now.toISOString()
+         from,
+         to
         }
       }),
     })
