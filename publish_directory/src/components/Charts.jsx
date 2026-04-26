@@ -16,11 +16,15 @@ function Charts({info, graphdata}) {
         <div className="grid grid-cols-2 grid-rows-2 gap-4">
             <div>
                 <div className="col-span-2">
-                    <h1 className="text-xl mb-2">Monthly Contributions</h1>
+                    <h1 className="text-4xl mb-2">Monthly Contributions</h1>
 
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={graphdata.contributions}>
-                            <XAxis dataKey="month" />
+                            <XAxis
+                              dataKey="month"
+                              tick={{ fontSize: 12 }}
+                              interval="preserveStartEnd"
+                            />
                             <YAxis />
                             <Tooltip />
                             <Line

@@ -66,6 +66,10 @@ app.post("/api/username", async (req, res) => {
       return res.sendStatus(400);
     }
 
+    const now = new Date();
+    const threeYearsAgo = new Date();
+    threeYearsAgo.setFullYear(now.getFullYear() - 3);
+
     const cachedToken = await getInstallationToken(INSTALLATION_ID)
     const response = await fetch("https://api.github.com/graphql", {
       method: "POST",
@@ -75,7 +79,7 @@ app.post("/api/username", async (req, res) => {
       },
       body: JSON.stringify({
         query: `
-            query UserAnalytics($login: String!) {
+            query UserAnalytics($login: String!, $from: DateTime!, $to: DateTime!) {
               user(login: $login) {
                 login
                 name
@@ -97,7 +101,7 @@ app.post("/api/username", async (req, res) => {
                     }
                   }
                 }
-                contributionsCollection {
+                contributionsCollection(from: $from, to: $to) {
                   contributionCalendar {
                     weeks {
                       contributionDays {
@@ -111,7 +115,9 @@ app.post("/api/username", async (req, res) => {
             }
           `,
         variables: {
-         login: username
+         login: username,
+         from: threeYearsAgo.toISOString(),
+         to: now.toISOString()
         }
       }),
     })
@@ -134,10 +140,17 @@ app.post("/api/username", async (req, res) => {
     const readable = JSON.stringify(data.data.user.repositories, null, 2)
     console.log(readable)
 
-    const contributions = sorted.map(([month, count]) => ({
-      month,
-      contributions: count
-    }));
+    const contributions = sorted.map(([month, count]) => {
+      const date = new Date(month + "-01");
+
+      return {
+        month: date.toLocaleDateString("en-US", {
+          month: "short",
+          year: "numeric"
+        }),
+        contributions: count
+      };
+    });
 
     const languageTotals = {};
 
