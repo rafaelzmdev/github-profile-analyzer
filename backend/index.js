@@ -56,8 +56,7 @@ async function getInstallationToken(INSTALLATION_ID) {
   return cachedToken;
 }
 
-//token = auth for graphql
-// call getInstallationToken(cachedToken) only mid-fetch!
+
 
 app.post("/api/username", async (req, res) => {
     const username = req.body.username
@@ -130,6 +129,7 @@ app.post("/api/username", async (req, res) => {
       }),
     })
     const data = await response.json()
+    console.log(JSON.stringify(data, null, 2));
     const weeks =
       data.data.user.contributionsCollection.contributionCalendar.weeks;
     const days = weeks.flatMap(week => week.contributionDays);
@@ -200,8 +200,6 @@ app.post("/api/username", async (req, res) => {
     res.json(graphData);
   });
 
-
-// so here's where we'll put the graphQL fetch and start assigning values. great.
 
 
 const port = process.env.PORT || 3000
